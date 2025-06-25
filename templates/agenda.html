@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>ATK App - Agenda</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='agenda.css') }}">
+</head>
+<body>
+    <div class="wrapper">
+        <nav class="sidebar" role="navigation" aria-label="Menu Principal">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="/">Tarefas</a></li>
+                <li><a href="/agenda">Agenda</a></li>
+                <li><a href="/configuracoes">Configurações</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <h1>Agendar Nova Tarefa</h1>
+            <form action="/add_agenda" method="post">
+                <input type="text" name="description" placeholder="Descrição da tarefa" required autocomplete="off" />
+                <input type="time" name="hora" required />
+                <button type="submit">Agendar</button>
+            </form>
+
+            <h2>Tarefas do Dia</h2>
+            <ul id="lista-tarefas">
+                {% for agenda in agendas %}
+                  <li class="{{ 'inativa' if agenda['done'] else '' }}">
+                    <strong>{{ agenda['hora'] }}</strong> - {{ agenda['description'] }}
+                    <form action="{{ url_for('toggle_agenda', agenda_id=agenda['id']) }}" method="post" style="display:inline;">
+                      <button type="submit" class="btn-toggle">
+                        {{ 'Ativar' if agenda['done'] else 'Desativar' }}
+                      </button>
+                    </form>
+                  </li>
+                {% endfor %}
+              </ul>
+              
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/agendador.js') }}"></script>
+</body>
+</html>

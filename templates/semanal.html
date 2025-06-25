@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Agenda Semanal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Agenda Semanal</h1>
+
+    <form method="POST" action="{{ url_for('add_semanal') }}">
+        <label>Dia da Semana:</label>
+        <select name="dia">
+            <option>Segunda</option>
+            <option>Terça</option>
+            <option>Quarta</option>
+            <option>Quinta</option>
+            <option>Sexta</option>
+            <option>Sábado</option>
+            <option>Domingo</option>
+        </select>
+        <input type="time" name="hora" required>
+        <input type="text" name="descricao" placeholder="Atividade" required>
+        <button type="submit">Adicionar</button>
+    </form>
+
+    <ul>
+        {% for atividade in atividades %}
+            <li>{{ atividade.dia }} - {{ atividade.hora }}: {{ atividade.descricao }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

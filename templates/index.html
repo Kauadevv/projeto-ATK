@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ATK App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="wrapper">
+        <nav class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="/">Tarefas</a></li>
+                <li><a href="/agenda">Agenda</a></li>
+                <li><a href="/configuracoes">Configurações</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <h1>Minha Lista de Tarefas</h1>
+            <form action="/add_task" method="post">
+                <input type="text" name="description" placeholder="Nova tarefa..." required />
+                <button type="submit">Adicionar</button>
+            </form>
+            <ul>
+                {% for task in tasks %}
+                    <li class="{{ 'done' if task['done'] else '' }}">
+                        <a href="/toggle_task/{{ task['id'] }}">[{{ '✔' if task['done'] else ' ' }}]</a>
+                        {{ task['description'] }}
+                        <a href="/delete/{{ task['id'] }}" class="delete">x</a>
+                    </li>
+                {% else %}
+                    <li>Nenhuma tarefa adicionada.</li>
+                {% endfor %}
+            </ul>
+        </main>
+    </div>
+</body>
+</html>

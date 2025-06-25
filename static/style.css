@@ -1,0 +1,119 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html, .wrapper {
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+.wrapper {
+    display: flex;
+}
+
+/* Sidebar - menu lateral */
+.sidebar {
+    width: 220px;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    min-height: 100vh; /* altura total da tela */
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background-color: #575757;
+}
+
+/* Conteúdo principal */
+.content {
+    flex-grow: 1;
+    padding: 30px;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+}
+
+.content h1 {
+    margin-bottom: 20px;
+}
+
+/* Formulário */
+form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    flex-grow: 1;
+    padding: 8px;
+    font-size: 16px;
+}
+
+button {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Lista de tarefas */
+ul {
+    list-style: none;
+}
+
+.content ul li {
+    padding: 10px;
+    background: grey;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wrapper li {
+    background: #191185;
+}
+
+
+li.done {
+    text-decoration: line-through;
+    color: gray;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+a.delete {
+    margin-left: auto;
+    color: red;
+    font-weight: bold;
+}
