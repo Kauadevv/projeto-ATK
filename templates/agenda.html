@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <title>ATK App - Agenda</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='agenda.css') }}">
-</head>
+  </head>
+
 <body>
     <div class="wrapper">
         <nav class="sidebar" role="navigation" aria-label="Menu Principal">
@@ -12,35 +13,86 @@
             <ul>
                 <li><a href="/">Tarefas</a></li>
                 <li><a href="/agenda">Agenda</a></li>
-                <li><a href="/configuracoes">Configurações</a></li>
             </ul>
         </nav>
 
         <main>
             <h1>Agendar Nova Tarefa</h1>
             <form action="/add_agenda" method="post">
-                <input type="text" name="description" placeholder="Descrição da tarefa" required autocomplete="off" />
-                <input type="time" name="hora" required />
-                <button type="submit">Agendar</button>
-            </form>
+              <input type="text" name="description" placeholder="Descrição da tarefa" required autocomplete="off" />
+          
+              <div id="horarios-container">
+                  <input type="time" name="horas" required />
+              </div>
+              <button type="button" onclick="adicionarHorario()">+ Adicionar horário</button>
+              
+              <button type="submit">Agendar</button>
+          </form>
+          
 
             <h2>Tarefas do Dia</h2>
             <ul id="lista-tarefas">
-                {% for agenda in agendas %}
-                  <li class="{{ 'inativa' if agenda['done'] else '' }}">
-                    <strong>{{ agenda['hora'] }}</strong> - {{ agenda['description'] }}
+              {% for agenda in agendas %}
+                <li class="tarefa-item {{ 'inativa' if agenda['done'] else '' }}">
+                  <div class="tarefa-header">
+                    <span class="descricao">{{ agenda['description'] }}</span>
+                    <div class="acoes-visiveis">
+                        <form action="{{ url_for('toggle_agenda', agenda_id=agenda['id']) }}" method="post">
+                            <button type="submit" class="btn-toggle">{{ 'Ativar' if agenda['done'] else 'Desativar' }}</button>
+                        </form>
+                        <form action="{{ url_for('delete_agenda', agenda_id=agenda['id']) }}" method="post">
+                            <button type="submit" class="btn-excluir">Excluir</button>
+                        </form>
+                    </div>
+                </div>
+                
+            
+                  <div class="tarefa-detalhes">
+                    <p><strong>Horários:</strong></p>
+                    <ul>
+                      {% for hora in agenda['hora'].split(',') %}
+                        <li>{{ hora }}</li>
+                      {% endfor %}
+                    </ul>
+            
                     <form action="{{ url_for('toggle_agenda', agenda_id=agenda['id']) }}" method="post" style="display:inline;">
                       <button type="submit" class="btn-toggle">
                         {{ 'Ativar' if agenda['done'] else 'Desativar' }}
                       </button>
                     </form>
-                  </li>
-                {% endfor %}
-              </ul>
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+            
+            
               
         </main>
     </div>
 
     <script src="{{ url_for('static', filename='js/agendador.js') }}"></script>
+
+    <script>
+      function adicionarHorario() {
+          const container = document.getElementById('horarios-container');
+          const input = document.createElement('input');
+          input.type = 'time';
+          input.name = 'horas';
+          input.required = true;
+          container.appendChild(input);
+      }
+      </script>
+
+      <script>
+      
+      function toggleDetalhes(elemento) {
+    elemento.classList.toggle('expanded');
+}
+
+    </script>
+    
+        
+      
+
 </body>
 </html>

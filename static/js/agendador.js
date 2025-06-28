@@ -55,34 +55,67 @@ function atualizarLista(tarefas) {
 
     tarefas.forEach(tarefa => {
         const li = document.createElement("li");
+        li.classList.add("tarefa-item");
         if (tarefa.done) li.classList.add("inativa");
 
-        const texto = document.createElement("span");
-        texto.textContent = `${tarefa.hora} - ${tarefa.description}`;
-        li.appendChild(texto);
+        const header = document.createElement("div");
+        header.classList.add("tarefa-header");
+        header.onclick = () => li.classList.toggle("expanded");
 
-        // Container de botões
-        const botoes = document.createElement("div");
-        botoes.classList.add("grupo-botoes");
+        const descricao = document.createElement("span");
+        descricao.classList.add("descricao");
+        descricao.textContent = tarefa.description;
+
+        const seta = document.createElement("span");
+        seta.classList.add("seta");
+        seta.textContent = "▼";
+
+        header.appendChild(descricao);
+        header.appendChild(seta);
+        li.appendChild(header);
+
+        const detalhes = document.createElement("div");
+        detalhes.classList.add("tarefa-detalhes");
+
+        const horariosTitle = document.createElement("p");
+        horariosTitle.innerHTML = "<strong>Horários:</strong>";
+
+        const listaHorarios = document.createElement("ul");
+        tarefa.hora.split(",").forEach(h => {
+            const item = document.createElement("li");
+            item.textContent = h;
+            listaHorarios.appendChild(item);
+        });
 
         const btnToggle = document.createElement("button");
         btnToggle.textContent = tarefa.done ? "Ativar" : "Desativar";
         btnToggle.classList.add("btn-toggle");
-        btnToggle.onclick = () => toggleTarefa(tarefa.id);
-        botoes.appendChild(btnToggle);
+        btnToggle.onclick = (event) => {
+            event.stopPropagation();
+            toggleTarefa(tarefa.id);
+        };
+
+        detalhes.appendChild(horariosTitle);
+        detalhes.appendChild(listaHorarios);
+        detalhes.appendChild(btnToggle);
 
         if (!tarefa.done) {
             const btnExcluir = document.createElement("button");
             btnExcluir.textContent = "Excluir";
             btnExcluir.classList.add("btn-excluir");
-            btnExcluir.onclick = () => deleteTarefa(tarefa.id);
-            botoes.appendChild(btnExcluir);
+            btnExcluir.onclick = (event) => {
+                event.stopPropagation();
+                deleteTarefa(tarefa.id);
+            };
+            detalhes.appendChild(btnExcluir);
         }
 
-        li.appendChild(botoes);
+        li.appendChild(detalhes);
         ul.appendChild(li);
     });
 }
+
+
 
 async function deleteTarefa(id) {
     const confirmar = confirm("Tem certeza que deseja excluir esta tarefa?");
@@ -95,6 +128,11 @@ async function deleteTarefa(id) {
         console.error("Erro ao excluir tarefa:", error);
     }
 }
+
+function toggleDetalhes(elemento) {
+    elemento.classList.toggle('expanded');
+}
+
 
 
 

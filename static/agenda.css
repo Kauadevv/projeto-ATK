@@ -14,7 +14,7 @@ body {
     overflow: hidden;
 }
 
-/* Estrutura principal */
+/* Estrutura */
 .wrapper {
     display: flex;
     width: 100%;
@@ -30,10 +30,10 @@ body {
 }
 
 .sidebar h2 {
-    margin-bottom: 2rem;
     font-size: 1.8rem;
-    border-bottom: 2px solid rgba(170, 255, 200, 0.2);
+    margin-bottom: 2rem;
     padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(170, 255, 200, 0.2);
 }
 
 .sidebar ul {
@@ -65,20 +65,26 @@ main {
 }
 
 main h1 {
-    color: #00ff99;
     font-size: 2.5rem;
+    color: #00ff99;
     margin-bottom: 1.5rem;
 }
 
-main form {
+main h2 {
+    font-size: 2rem;
+    color: #81c784;
+    margin-bottom: 1rem;
+}
+
+form {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 2.5rem;
 }
 
-main input[type="text"],
-main input[type="time"] {
+input[type="text"],
+input[type="time"] {
     background-color: #1d1d1d;
     color: #e0e0e0;
     padding: 0.8rem 1rem;
@@ -88,13 +94,13 @@ main input[type="time"] {
     transition: border-color 0.3s, background-color 0.3s;
 }
 
-main input:focus {
+input:focus {
     outline: none;
     border-color: #00ff99;
     background-color: #222;
 }
 
-main button {
+button {
     background-color: #00c774;
     color: #0e0e0e;
     padding: 0.8rem 1.5rem;
@@ -105,113 +111,135 @@ main button {
     transition: background-color 0.3s;
 }
 
-main button:hover {
+button:hover {
     background-color: #00ff99;
 }
 
 /* Lista de tarefas */
-main h2 {
-    font-size: 2rem;
-    color: #81c784;
-    margin-bottom: 1rem;
-}
-
 #lista-tarefas {
     list-style: none;
     padding-left: 0;
 }
 
-#lista-tarefas li {
+.tarefa-item {
     background-color: #1a1a1a;
     border-left: 6px solid #00c774;
-    padding: 1rem;
-    margin-bottom: 0.8rem;
     border-radius: 6px;
     box-shadow: 0 1px 4px rgba(0, 255, 128, 0.1);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    cursor: pointer;
 }
 
-.inativa {
-    opacity: 0.4;
+.tarefa-item:hover {
+    background-color: #1e1e1e;
+}
+
+.tarefa-item.inativa {
+    opacity: 0.5;
     text-decoration: line-through;
     border-left: 6px solid #555;
 }
 
-#lista-tarefas li a {
-    margin-left: 1rem;
-    color: #66ff99;
+.tarefa-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-weight: bold;
-    text-decoration: none;
-    transition: color 0.2s;
 }
 
-#lista-tarefas li {
-    background-color: #1a1a1a;
-    border-left: 6px solid #00c774;
-    padding: 1rem;
-    margin-bottom: 0.8rem;
-    border-radius: 6px;
-    box-shadow: 0 1px 4px rgba(0, 255, 128, 0.1);
+.seta {
+    font-size: 14px;
+    transition: transform 0.3s ease;
+}
 
+.tarefa-item.expanded .seta {
+    transform: rotate(180deg);
+}
+
+.tarefa-detalhes {
+    display: none;
+    background-color: #202020;
+    border-top: 1px solid #333;
+    padding: 1rem;
+    border-radius: 6px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.tarefa-item.expanded .tarefa-detalhes {
+    display: block;
+}
+
+/* Horários em linha */
+.tarefa-detalhes ul {
     display: flex;
-    justify-content: space-between; 
-    align-items: center;             /* alinhamento vertical */
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    padding-left: 0;
+    list-style: none;
+}
+
+.tarefa-detalhes ul li {
+    background-color: #303030;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    font-size: 0.85rem;
+}
+
+/* Ações sempre visíveis */
+.acoes-visiveis {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
 }
 
 .btn-toggle {
-    margin-left: 1rem;
-    padding: 0.4rem 1rem;
-    background-color: #00c774;
-    color: #0e0e0e;
+    padding: 0.4rem 0.8rem;
     border: none;
-    border-radius: 8px;
-    font-weight: 700;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.85rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-size: 0.9rem;
-    user-select: none;
-
-    flex-shrink: 0; /* para não encolher */
+    margin-top: 1%;    
 }
 
+.btn-excluir {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1%;
+    margin-left: 1%;    
+}
+
+.btn-toggle {
+    background-color: #00c774;
+    color: #0e0e0e;
+}
 
 .btn-toggle:hover {
     background-color: #00ff99;
 }
 
-.inativa {
-    opacity: 0.5;
-    text-decoration: line-through;
-    border-left: 6px solid #555;
-    padding-left: 0.6rem;
-}
-
 .btn-excluir {
-    margin-left: 1rem;
-    padding: 0.4rem 1rem;
     background-color: #ff4d4d;
     color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 0.9rem;
-    user-select: none;
 }
 
 .btn-excluir:hover {
     background-color: #ff1a1a;
 }
 
-.grupo-botoes {
-    display: flex;
-    gap: 0.5rem;
-    margin-left: auto;
+/* Animação */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-
-
-
-
-
-
-

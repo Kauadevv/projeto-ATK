@@ -44,8 +44,8 @@ def init_db():
             CREATE TABLE IF NOT EXISTS semana_detalhada (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 semana INTEGER NOT NULL,
-                dia TEXT NOT NULL,              -- Segunda, Terça...
-                hora TEXT NOT NULL,             -- HH:MM
+                dia TEXT NOT NULL,              
+                hora TEXT NOT NULL,            
                 descricao TEXT NOT NULL
             );
             ''')
@@ -105,13 +105,17 @@ def agenda():
 @app.route('/add_agenda', methods=['POST'])
 def add_agenda():
     description = request.form['description']
-    hora = request.form['hora']
-    if description and hora:
+    horas = request.form.getlist('horas')
+
+    if description and horas:
+        horas_str = ",".join(horas)  # Junta em uma única string
         conn = get_db_connection()
-        conn.execute('INSERT INTO agendas (description, hora) VALUES (?, ?)', (description, hora))
+        conn.execute('INSERT INTO agendas (description, hora) VALUES (?, ?)', (description, horas_str))
         conn.commit()
         conn.close()
     return redirect(url_for('agenda'))
+
+
 
 from flask import request
 
